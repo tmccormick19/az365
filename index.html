@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft 365 Migration Help | Tucson Orthopaedic Institute</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #1B3A5C;
+      --navy-dark: #122840;
+      --blue:      #2563EB;
+      --blue-light:#EFF6FF;
+      --teal:      #0E7490;
+      --green:     #059669;
+      --amber:     #D97706;
+      --red:       #DC2626;
+      --gray-50:   #F9FAFB;
+      --gray-100:  #F3F4F6;
+      --gray-200:  #E5E7EB;
+      --gray-400:  #9CA3AF;
+      --gray-600:  #4B5563;
+      --gray-800:  #1F2937;
+      --white:     #FFFFFF;
+      --radius:    8px;
+      --shadow:    0 1px 4px rgba(0,0,0,0.10);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-800);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      overflow: hidden;
+      background: var(--navy);   /* OCP blue — right side */
+      color: var(--white);
+      padding: 0 24px;
+    }
+    /* TOI green — left side, clipped to a diagonal slash */
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #6DB33F;
+      clip-path: polygon(0 0, calc(50% + 36px) 0, calc(50% - 12px) 100%, 0 100%);
+      z-index: 0;
+    }
+    /* white highlight stripe along the slash */
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.88);
+      clip-path: polygon(
+        calc(50% + 32px) 0, calc(50% + 42px) 0,
+        calc(50% - 16px) 100%, calc(50% - 6px) 100%
+      );
+      z-index: 0;
+    }
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+      flex-wrap: wrap;
+    }
+    .header-brand { display: flex; align-items: center; gap: 14px; }
+    .header-logo {
+      width: 44px; height: 44px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .header-text h1 { font-size: 18px; font-weight: 700; letter-spacing: -.3px; }
+    .header-text p  { font-size: 12px; color: #93C5FD; margin-top: 2px; }
+    .header-ocp-logo {
+      height: 36px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+    }
+
+    /* ── PAGE TITLE ── */
+    .page-title {
+      max-width: 900px;
+      margin: 28px auto 0;
+      padding: 0 16px;
+      text-align: center;
+    }
+    .page-title h2 {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.4px;
+    }
+    .page-title p {
+      font-size: 15px;
+      color: var(--gray-600);
+      margin-top: 6px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 16px auto 28px;
+      padding: 0 16px;
+    }
+
+    /* ── INTRO ── */
+    .intro {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 24px 28px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+    .intro h2 {
+      color: var(--navy);
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .intro p { color: var(--gray-600); margin-bottom: 8px; }
+    .intro p:last-child { margin-bottom: 0; }
+
+.apps-affected {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .app-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    /* ── DEVICE PICKER ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .device-btn {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 18px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .device-btn:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-md);
+    }
+    .device-btn.active {
+      border-color: var(--navy);
+      background: var(--blue-light);
+      box-shadow: var(--shadow-md);
+    }
+    .device-btn .icon { font-size: 34px; }
+    .device-btn .label { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+    .device-btn .sublabel { font-size: 11px; color: var(--gray-400); margin-top: -6px; }
+
+    /* ── INSTRUCTIONS PANEL ── */
+    .instructions { display: none; }
+    .instructions.visible { display: block; }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .panel-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .panel-header .ph-icon { font-size: 22px; }
+    .panel-header h3 { font-size: 16px; font-weight: 700; }
+    .panel-header p  { font-size: 12px; color: #93C5FD; margin-top: 2px; }
+
+    .app-section {
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .app-section:last-child { border-bottom: none; }
+
+    .app-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: background .1s;
+    }
+    .app-toggle:hover { background: var(--gray-50); }
+    .app-toggle.open  { background: var(--gray-50); }
+
+    .app-toggle .at-icon { font-size: 22px; flex-shrink: 0; }
+    .app-toggle .at-text { flex: 1; }
+    .app-toggle .at-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+    .app-toggle .at-desc { font-size: 12px; color: var(--gray-400); }
+    .app-toggle .at-caret {
+      font-size: 12px;
+      color: var(--gray-400);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .app-toggle.open .at-caret { transform: rotate(180deg); }
+
+    .app-body {
+      display: none;
+      padding: 4px 20px 20px 54px;
+    }
+    .app-body.open { display: block; }
+
+    .steps { list-style: none; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 6px 0 6px 38px;
+      font-size: 14px;
+      color: var(--gray-800);
+    }
+    .steps li + li { border-top: 1px solid var(--gray-100); }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 24px; height: 24px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    code {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Consolas', monospace;
+      color: var(--navy);
+    }
+
+    .tip {
+      display: flex;
+      gap: 8px;
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 4px 4px 0;
+      padding: 8px 12px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #1E40AF;
+    }
+
+    /* ── HELP FOOTER ── */
+    .help-card {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .help-card .hc-icon { font-size: 40px; flex-shrink: 0; }
+    .help-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .help-card p  { font-size: 13px; color: #93C5FD; }
+    .help-card a  { color: #BAE6FD; text-decoration: none; font-weight: 600; }
+    .help-card a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 8px;
+    }
+
+    /* ── MOCKUP SCREENSHOTS ── */
+    .mock-wrap { margin: 14px 0 0; }
+    .mock-window {
+      display: block;
+      max-width: 460px;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      border: 1px solid #c0c0c0;
+      box-shadow: 0 4px 20px rgba(0,0,0,.16);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      user-select: none;
+    }
+    .mock-bar {
+      background: #f0f0f0;
+      border-bottom: 1px solid #ddd;
+      padding: 7px 0 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mock-bar .mb-title { flex: 1; font-size: 12px; color: #111; }
+    .mock-bar .mb-btn {
+      width: 46px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #444; cursor: default;
+    }
+    .mock-bar .mb-btn.close { background: #c42b1c; color: #fff; }
+    .mock-body { background: #fff; font-size: 12px; color: #1a1a1a; }
+    .mock-caption {
+      max-width: 460px;
+      background: var(--gray-100);
+      border: 1px solid #c0c0c0;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 6px 12px;
+      font-size: 11px;
+      color: var(--gray-600);
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+    .mock-ring {
+      outline: 2.5px solid #dc2626;
+      outline-offset: 2px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .quest-banner {
+      background: #eff6ff;
+      border-bottom: 1px solid #dbeafe;
+      padding: 18px 20px 16px;
+    }
+    .quest-banner h4 {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 700; color: #1e3a8a; margin-bottom: 8px;
+    }
+    .quest-banner p { font-size: 13px; color: #1e40af; line-height: 1.55; margin-bottom: 10px; }
+    .quest-done {
+      background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 5px;
+      padding: 9px 13px; font-size: 12px; color: #166534; margin-top: 14px;
+    }
+    .step-break {
+      background: var(--gray-50); border-left: 3px solid var(--gray-200);
+      border-radius: 0 4px 4px 0; padding: 6px 12px;
+      font-size: 12px; color: var(--gray-600); margin: 8px 0; font-style: italic;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .device-grid { grid-template-columns: repeat(3, 1fr); }
+      .app-body { padding-left: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-logo">🏥</div>
+      <div class="header-text">
+        <h1>Tucson Orthopaedic Institute</h1>
+      </div>
+    </div>
+    <img class="header-ocp-logo" src="https://ocpmgmt.com/wp-content/uploads/2023/06/logo2x.png" alt="Orthopedic Care Partners">
+  </div>
+</header>
+
+<div class="page-title">
+  <h2>Microsoft 365 Migration Help Center</h2>
+  <p>Select your device below for step-by-step reconnection instructions.</p>
+</div>
+
+<main>
+
+  <div class="intro">
+    <h2>What's changing and what you need to do</h2>
+    <p>Tucson Orthopaedic Institute's email, Teams, OneDrive, and SharePoint are moving to a new Microsoft 365 environment managed by Orthopedic Care Partners (OCP).</p>
+    <p style="margin-top:10px;"><strong>Your email address and password do not change.</strong> However, each app on each device you use needs to be reconnected to the new environment. Select your device below and follow the steps for each app.</p>
+
+    <div class="apps-affected">
+      <span class="app-chip">📧 Outlook / Email</span>
+      <span class="app-chip">💬 Microsoft Teams</span>
+      <span class="app-chip">☁️ OneDrive</span>
+      <span class="app-chip">📁 SharePoint</span>
+    </div>
+  </div>
+
+  <div class="section-label">Select your device</div>
+
+  <div class="device-grid">
+    <button class="device-btn" onclick="showDevice('windows')" id="btn-windows">
+      <span class="icon">🖥️</span>
+      <span class="label">Windows</span>
+      <span class="sublabel">PC / Laptop</span>
+    </button>
+    <button class="device-btn" onclick="showDevice('mac')" id="btn-mac">
+      <span class="icon">💻</span>
+      <span class="label">Mac</span>
+      <span class="sublabel">macOS</span>
+    </button>
+    <button class="device-btn" onclick="showDevice('iphone')" id="btn-iphone">
+      <span class="icon">📱</span>
+      <span class="label">iPhone</span>
+      <span class="sublabel">iOS</span>
+    </button>
+    <button class="device-btn" onclick="showDevice('android')" id="btn-android">
+      <span class="icon">🤖</span>
+      <span class="label">Android</span>
+      <span class="sublabel">Phone / Tablet</span>
+    </button>
+    <button class="device-btn" onclick="showDevice('browser')" id="btn-browser">
+      <span class="icon">🌐</span>
+      <span class="label">Browser</span>
+      <span class="sublabel">Any device</span>
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- iPhone                                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="instructions" id="device-iphone">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="ph-icon">📱</span>
+        <div>
+          <h3>iPhone — iOS</h3>
+          <p>Sign out and back in for each app below</p>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">📧</span>
+          <div class="at-text">
+            <div class="at-name">Outlook (Email)</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open the <strong>Outlook</strong> app on your iPhone.</li>
+            <li>Tap your <strong>profile photo</strong> or initials in the top-left corner.</li>
+            <li>Tap the <strong>gear icon</strong> (Settings) at the bottom of the sidebar.</li>
+            <li>Tap your <strong>@tucsonortho.com</strong> email account near the top.</li>
+            <li>Scroll down and tap <strong>Delete Account</strong>, then confirm.</li>
+            <li>Return to the Accounts list and tap <strong>Add Email Account</strong>.</li>
+            <li>Enter your email address and follow the prompts to sign in.</li>
+          </ol>
+          <div class="tip">💡 If asked, choose <strong>Work or school account</strong> when prompted for account type.</div>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">💬</span>
+          <div class="at-text">
+            <div class="at-name">Microsoft Teams</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open the <strong>Teams</strong> app.</li>
+            <li>Tap your <strong>profile photo</strong> in the top-left corner.</li>
+            <li>Scroll down and tap <strong>Sign out</strong>, then confirm.</li>
+            <li>On the sign-in screen, tap <strong>Sign in</strong> and enter your email address.</li>
+            <li>Enter your password and complete any multi-factor authentication (MFA) prompts.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">☁️</span>
+          <div class="at-text">
+            <div class="at-name">OneDrive</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open the <strong>OneDrive</strong> app.</li>
+            <li>Tap your <strong>profile photo</strong> or initials (top left).</li>
+            <li>Tap the <strong>gear icon</strong> to open Settings.</li>
+            <li>Tap your account name.</li>
+            <li>Tap <strong>Sign Out</strong>.</li>
+            <li>Tap <strong>Sign in</strong> and enter your email address and password.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- Android                                     -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="instructions" id="device-android">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="ph-icon">🤖</span>
+        <div>
+          <h3>Android — Phone or Tablet</h3>
+          <p>Sign out and back in for each app below</p>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">📧</span>
+          <div class="at-text">
+            <div class="at-name">Outlook (Email)</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open the <strong>Outlook</strong> app.</li>
+            <li>Tap your <strong>profile photo</strong> or initials in the top-left.</li>
+            <li>Tap the <strong>gear icon</strong> (Settings) at the bottom.</li>
+            <li>Tap your <strong>@tucsonortho.com</strong> account.</li>
+            <li>Tap <strong>Delete Account</strong> and confirm.</li>
+            <li>Tap <strong>Add Account → Add Email Account</strong>.</li>
+            <li>Enter your email address and sign in.</li>
+          </ol>
+          <div class="tip">💡 Select <strong>Work or school account</strong> if prompted for account type.</div>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">💬</span>
+          <div class="at-text">
+            <div class="at-name">Microsoft Teams</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open <strong>Teams</strong> and tap your <strong>profile photo</strong> (top left).</li>
+            <li>Scroll to the bottom and tap <strong>Sign out</strong>.</li>
+            <li>Tap <strong>Sign out</strong> again to confirm.</li>
+            <li>Tap <strong>Sign in</strong> and enter your email address.</li>
+            <li>Enter your password and complete any MFA step.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">☁️</span>
+          <div class="at-text">
+            <div class="at-name">OneDrive</div>
+            <div class="at-desc">Tap to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open <strong>OneDrive</strong>.</li>
+            <li>Tap the <strong>three-line menu</strong> or your profile photo.</li>
+            <li>Tap the <strong>gear icon</strong> → <strong>Account</strong>.</li>
+            <li>Tap <strong>Sign Out</strong> next to your @tucsonortho.com account.</li>
+            <li>Tap <strong>Sign in</strong> and use your credentials.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- Mac                                         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="instructions" id="device-mac">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="ph-icon">💻</span>
+        <div>
+          <h3>Mac — macOS</h3>
+          <p>Sign out and back in for each app below</p>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">📧</span>
+          <div class="at-text">
+            <div class="at-name">Outlook for Mac</div>
+            <div class="at-desc">Click to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open <strong>Outlook</strong>.</li>
+            <li>In the menu bar, click <strong>Tools → Accounts…</strong></li>
+            <li>In the left panel, click your <strong>@tucsonortho.com</strong> account.</li>
+            <li>Click the <strong>minus (−)</strong> button at the bottom of the account list.</li>
+            <li>Click <strong>Delete</strong> to confirm.</li>
+            <li>Click the <strong>plus (+)</strong> button and choose <strong>New Account…</strong></li>
+            <li>Enter your email address and click <strong>Continue</strong>, then follow the sign-in prompts.</li>
+          </ol>
+          <div class="tip">💡 Outlook may need a restart after adding the new account before your calendar and contacts fully sync.</div>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">💬</span>
+          <div class="at-text">
+            <div class="at-name">Microsoft Teams</div>
+            <div class="at-desc">Click to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open <strong>Teams</strong>.</li>
+            <li>Click your <strong>profile picture</strong> in the top-right corner.</li>
+            <li>Click <strong>Sign out</strong>.</li>
+            <li>On the sign-in screen, enter your email address.</li>
+            <li>Enter your password and complete any MFA prompts (Authenticator app, text, etc.).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">☁️</span>
+          <div class="at-text">
+            <div class="at-name">OneDrive</div>
+            <div class="at-desc">Click to expand steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Click the <strong>OneDrive cloud icon</strong> in the menu bar (top-right area).</li>
+            <li>Click the <strong>gear icon</strong> → <strong>Preferences…</strong></li>
+            <li>Click the <strong>Account</strong> tab.</li>
+            <li>Click <strong>Unlink this Mac</strong>.</li>
+            <li>In the OneDrive setup window that appears, enter your email address and follow prompts to sign in.</li>
+          </ol>
+          <div class="tip">💡 Your OneDrive folder location stays the same — only the account it syncs to will change.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- Windows                                     -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="instructions" id="device-windows">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="ph-icon">🖥️</span>
+        <div>
+          <h3>Windows — PC or Laptop</h3>
+          <p>Outlook is migrated by Quest. Teams and OneDrive need to be reconnected manually.</p>
+        </div>
+      </div>
+
+      <!-- ── QUEST BANNER ── -->
+      <div class="quest-banner">
+        <h4>
+          <span style="background:#2563eb;color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">1</span>
+          Quest Migration Agent — Outlook
+        </h4>
+        <p>Your IT team uses <strong>Quest</strong> to automatically migrate your Outlook profile to the new environment. When IT triggers your migration, a dialog will appear on your screen. Click <strong>Start Migration</strong> — Quest will reconfigure Outlook in the background and may restart it automatically. <strong>You do not need to change any settings in Outlook.</strong></p>
+
+        <!-- Quest dialog mockup -->
+        <div class="mock-wrap">
+          <div class="mock-window">
+            <div class="mock-bar">
+              <span style="font-size:14px;">🔵</span>
+              <span class="mb-title">Quest Migration Agent</span>
+              <div class="mb-btn">─</div>
+              <div class="mb-btn">□</div>
+              <div class="mb-btn close">✕</div>
+            </div>
+            <div class="mock-body" style="padding:20px;">
+              <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;">
+                <div style="width:48px;height:48px;background:#0078d4;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:22px;">🔄</div>
+                <div>
+                  <p style="font-weight:700;font-size:13px;margin-bottom:5px;color:#0078d4;">Microsoft 365 Migration Ready</p>
+                  <p style="color:#333;line-height:1.5;font-size:12px;">Your Outlook account is being moved to the new OCP Microsoft 365 environment. Your email address and password will not change. Click <strong>Start Migration</strong> to begin — Outlook may restart automatically when complete.</p>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button style="padding:7px 18px;background:#f5f5f5;color:#333;border:1px solid #bbb;border-radius:3px;font-size:12px;cursor:default;font-family:inherit;">Remind me later</button>
+                <div class="mock-ring">
+                  <button style="padding:7px 20px;background:#0078d4;color:#fff;border:none;border-radius:3px;font-size:12px;cursor:default;font-family:inherit;font-weight:600;">Start Migration</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-caption">Click <strong>Start Migration</strong> when this dialog appears on your screen.</div>
+        </div>
+
+        <div class="quest-done">
+          ✅ <strong>After Quest finishes, Outlook is done.</strong> Next, reconnect Teams and OneDrive using Steps 2 and 3 below.
+        </div>
+      </div>
+
+      <!-- ── TEAMS ── -->
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">💬</span>
+          <div class="at-text">
+            <div class="at-name">Step 2 — Microsoft Teams</div>
+            <div class="at-desc">Click to expand — sign out and back in</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+
+          <!-- Teams mockup -->
+          <div class="mock-wrap">
+            <div class="mock-window">
+              <div class="mock-bar" style="background:#464775;border-bottom-color:#5b5ea6;">
+                <span style="font-size:14px;">💬</span>
+                <span class="mb-title" style="color:#fff;">Microsoft Teams</span>
+                <div class="mb-btn" style="color:#bbb;">─</div>
+                <div class="mb-btn" style="color:#bbb;">□</div>
+                <div class="mb-btn close">✕</div>
+              </div>
+              <div class="mock-body">
+                <div style="background:#3d3d70;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;">
+                  <span style="color:#ccc;font-size:11px;flex:1;">🔍 Search</span>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="color:#ccc;font-size:13px;">🔔</span>
+                    <div style="width:30px;height:30px;background:#6264a7;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;cursor:default;">FL</div>
+                  </div>
+                </div>
+                <!-- Profile dropdown -->
+                <div style="display:flex;justify-content:flex-end;padding:0 8px;">
+                  <div style="background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);width:220px;overflow:hidden;font-size:12px;">
+                    <div style="padding:12px;border-bottom:1px solid #eee;background:#fafafa;">
+                      <p style="font-weight:700;color:#111;">First Last</p>
+                      <p style="color:#888;font-size:10px;margin-top:2px;">firstname.lastname@tucsonortho.com</p>
+                      <p style="color:#27ae60;font-size:10px;margin-top:2px;">● Available</p>
+                    </div>
+                    <div style="padding:4px 0;">
+                      <div style="padding:8px 14px;color:#444;display:flex;align-items:center;gap:8px;">⚙️ <span>Settings</span></div>
+                      <div style="padding:8px 14px;color:#444;display:flex;align-items:center;gap:8px;">🔕 <span>Do not disturb</span></div>
+                      <div class="mock-ring" style="display:block;margin:2px 6px 6px;">
+                        <div style="padding:8px 10px;color:#c42b1c;font-weight:700;display:flex;align-items:center;gap:8px;background:#fff8f8;border-radius:3px;">🚪 <span>Sign out</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-caption">Click your profile picture (top-right), then click <strong>Sign out</strong>.</div>
+          </div>
+
+          <ol class="steps">
+            <li>Open <strong>Teams</strong>.</li>
+            <li>Click your <strong>profile picture</strong> in the top-right corner of the Teams window.</li>
+            <li>Click <strong>Sign out</strong> from the dropdown menu.</li>
+            <li>On the sign-in screen, your email address should already be filled in — enter your password and click <strong>Sign in</strong>.</li>
+            <li>Complete any multi-factor authentication (MFA) prompt if it appears.</li>
+          </ol>
+          <div class="tip">💡 If Teams is minimized to the taskbar, right-click the Teams icon in the system tray and choose <strong>Sign out</strong> from there instead.</div>
+        </div>
+      </div>
+
+      <!-- ── ONEDRIVE ── -->
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">☁️</span>
+          <div class="at-text">
+            <div class="at-name">Step 3 — OneDrive</div>
+            <div class="at-desc">Click to expand — unlink and reconnect</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+
+          <!-- OneDrive system tray mockup -->
+          <div class="mock-wrap">
+            <div class="mock-window">
+              <div class="mock-bar">
+                <span style="font-size:14px;">☁️</span>
+                <span class="mb-title">OneDrive — Files are up to date</span>
+                <div class="mb-btn close">✕</div>
+              </div>
+              <div class="mock-body" style="padding:14px;">
+                <div style="background:#fafafa;border:1px solid #eee;border-radius:6px;padding:10px 12px;margin-bottom:12px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:22px;">☁️</span>
+                    <div>
+                      <p style="font-weight:600;font-size:11px;">All files synced</p>
+                      <p style="font-size:10px;color:#888;">firstname.lastname@tucsonortho.com</p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+                  <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:3px;cursor:default;font-family:inherit;">Open folder</button>
+                  <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:3px;cursor:default;font-family:inherit;">View online</button>
+                  <div class="mock-ring">
+                    <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:3px;cursor:default;font-family:inherit;">⚙ Settings</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-caption">Click the OneDrive cloud icon in the system tray (bottom-right corner), then click <strong>⚙ Settings</strong>.</div>
+          </div>
+
+          <ol class="steps">
+            <li>Find the <strong>OneDrive cloud icon</strong> in the system tray at the bottom-right of your screen (near the clock). Click the <code>^</code> arrow if you don't see it.</li>
+            <li>Click the cloud icon to open the OneDrive panel, then click the <strong>gear icon ⚙</strong> → <strong>Settings</strong>.</li>
+            <li>In the Settings window, click the <strong>Account</strong> tab.</li>
+          </ol>
+
+          <div class="step-break">The OneDrive Settings window will open — click the Account tab as shown below.</div>
+
+          <!-- OneDrive Settings > Account mockup -->
+          <div class="mock-wrap">
+            <div class="mock-window">
+              <div class="mock-bar">
+                <span style="font-size:14px;">☁️</span>
+                <span class="mb-title">Microsoft OneDrive Settings</span>
+                <div class="mb-btn close">✕</div>
+              </div>
+              <div class="mock-body">
+                <div style="display:flex;background:#f5f5f5;border-bottom:1px solid #ddd;">
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">Sync &amp; Backup</div>
+                  <div class="mock-ring" style="display:inline-block;">
+                    <div style="padding:8px 14px;border-bottom:2px solid #0078d4;color:#0078d4;font-weight:700;font-size:11px;">Account</div>
+                  </div>
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">Notifications</div>
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">About</div>
+                </div>
+                <div style="padding:16px;">
+                  <p style="font-size:11px;font-weight:600;color:#222;margin-bottom:2px;">firstname.lastname@tucsonortho.com</p>
+                  <p style="font-size:10px;color:#888;margin-bottom:14px;">OneDrive — Tucson Orthopaedic Institute</p>
+                  <div class="mock-ring" style="display:inline-block;">
+                    <button style="padding:6px 14px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:3px;cursor:default;font-family:inherit;">Unlink this PC</button>
+                  </div>
+                  <hr style="margin:14px 0;border:none;border-top:1px solid #eee;">
+                  <p style="font-size:11px;font-weight:600;color:#222;margin-bottom:6px;">Add an account</p>
+                  <button style="padding:6px 14px;font-size:11px;background:#0078d4;color:#fff;border:none;border-radius:3px;cursor:default;font-family:inherit;">Add account</button>
+                </div>
+              </div>
+            </div>
+            <div class="mock-caption">Click the <strong>Account</strong> tab, then click <strong>Unlink this PC</strong>.</div>
+          </div>
+
+          <ol class="steps" start="4">
+            <li>Click <strong>Unlink this PC</strong> and confirm when prompted.</li>
+            <li>OneDrive will show a sign-in screen. Enter your email address and password to reconnect.</li>
+            <li>When asked about your OneDrive folder location, keep the default — your existing files will continue syncing from the same folder.</li>
+          </ol>
+
+          <div class="tip">💡 Your files stay in place. Unlinking only disconnects the account — it does not delete any local files.</div>
+        </div>
+      </div>
+
+      <!-- ── OUTLOOK TROUBLESHOOTING ── -->
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">⚠️</span>
+          <div class="at-text">
+            <div class="at-name">Outlook still showing errors after Quest ran?</div>
+            <div class="at-desc">Click to expand — manual fix steps</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <p style="font-size:13px;color:var(--gray-600);margin-bottom:14px;">If Quest ran but Outlook is still showing a password prompt or connection error, use the steps below to remove and re-add the account manually.</p>
+
+          <!-- Outlook Classic Account Settings mockup -->
+          <div class="mock-wrap">
+            <div class="mock-window">
+              <div class="mock-bar">
+                <span style="font-size:14px;">📧</span>
+                <span class="mb-title">Account Settings — Outlook</span>
+                <div class="mb-btn close">✕</div>
+              </div>
+              <div class="mock-body">
+                <div style="display:flex;background:#f5f5f5;border-bottom:1px solid #ddd;">
+                  <div style="padding:8px 14px;border-bottom:2px solid #0078d4;color:#0078d4;font-weight:700;font-size:11px;">Email</div>
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">Data Files</div>
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">RSS Feeds</div>
+                  <div style="padding:8px 14px;color:#555;font-size:11px;">SharePoint Lists</div>
+                </div>
+                <div style="padding:12px;">
+                  <p style="font-size:11px;color:#555;margin-bottom:8px;">The following email accounts are set up:</p>
+                  <div style="border:1px solid #ccc;overflow:hidden;border-radius:2px;margin-bottom:12px;">
+                    <div style="background:#cce8ff;padding:8px 10px;display:flex;align-items:center;gap:8px;font-size:11px;">
+                      <span>📧</span>
+                      <span style="flex:1;">firstname.lastname@tucsonortho.com  (Microsoft Exchange)</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;">
+                    <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:2px;cursor:default;font-family:inherit;">⊕ New…</button>
+                    <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:2px;cursor:default;font-family:inherit;">🔧 Repair…</button>
+                    <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:2px;cursor:default;font-family:inherit;">✎ Change…</button>
+                    <div class="mock-ring">
+                      <button style="padding:5px 10px;font-size:11px;background:#f5f5f5;border:1px solid #bbb;border-radius:2px;cursor:default;font-family:inherit;">✕ Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-caption">Go to <strong>File → Account Settings → Account Settings…</strong> — select your account, then click <strong>Remove</strong>.</div>
+          </div>
+
+          <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;">Classic Outlook (older interface)</p>
+          <ol class="steps">
+            <li>Open <strong>Outlook</strong> and click <strong>File</strong> in the top-left menu bar.</li>
+            <li>Click <strong>Account Settings → Account Settings…</strong></li>
+            <li>On the <strong>Email</strong> tab, click your <strong>@tucsonortho.com</strong> account to select it.</li>
+            <li>Click <strong>Remove</strong>, then click <strong>Yes</strong> to confirm.</li>
+            <li>Click <strong>New…</strong>, enter your email address, and follow the auto-configuration prompts.</li>
+            <li>Click <strong>Finish</strong>, then restart Outlook.</li>
+          </ol>
+
+          <p style="font-size:12px;font-weight:700;color:var(--navy);margin:14px 0 6px;">New Outlook (modern interface)</p>
+          <ol class="steps">
+            <li>Open <strong>Outlook</strong> and click the <strong>gear icon ⚙</strong> (Settings) in the top-right.</li>
+            <li>Click <strong>Accounts → Email accounts</strong> in the left panel.</li>
+            <li>Click your <strong>@tucsonortho.com</strong> account, then click <strong>Remove account</strong> and confirm.</li>
+            <li>Click <strong>Add account</strong>, enter your email address, and follow the sign-in steps.</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- Browser                                     -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="instructions" id="device-browser">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="ph-icon">🌐</span>
+        <div>
+          <h3>Web Browser</h3>
+          <p>Works on any device — Chrome, Edge, Safari, Firefox</p>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">🔑</span>
+          <div class="at-text">
+            <div class="at-name">Sign out of Microsoft 365 (All apps)</div>
+            <div class="at-desc">Click to expand steps — do this first</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Go to <strong>office.com</strong> (or any Microsoft 365 web app like Outlook or Teams).</li>
+            <li>Click your <strong>profile photo or initials</strong> in the top-right corner.</li>
+            <li>Click <strong>Sign out</strong>.</li>
+            <li>On the sign-in page, click <strong>Use a different account</strong> (or <strong>Sign in with a different account</strong>).</li>
+            <li>Enter your email address and click <strong>Next</strong>.</li>
+            <li>Enter your password and complete any MFA prompts to finish signing in.</li>
+          </ol>
+          <div class="tip">💡 Signing out at office.com signs you out of Outlook, Teams, OneDrive, and SharePoint all at once in the browser.</div>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">🍪</span>
+          <div class="at-text">
+            <div class="at-name">Still seeing the old account? Clear your browser session</div>
+            <div class="at-desc">Click to expand steps — try this if sign-out doesn't work</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>Open a <strong>Private / Incognito</strong> window (<code>Ctrl+Shift+N</code> on Windows/Chrome, <code>Cmd+Shift+N</code> on Mac/Chrome, <code>Ctrl+Shift+P</code> Firefox/Edge).</li>
+            <li>Go to <strong>office.com</strong> in the private window.</li>
+            <li>Sign in with your account — this bypasses any cached session.</li>
+          </ol>
+          <p style="margin-top:12px; font-size:13px; color:var(--gray-600);">If the private window works but the regular window still shows the old account, you can clear Microsoft-related cookies:</p>
+          <ol class="steps" style="margin-top:8px;">
+            <li>In your browser settings, go to <strong>Privacy &amp; Security → Clear browsing data</strong>.</li>
+            <li>Select <strong>Cookies and site data</strong> for <strong>All time</strong>.</li>
+            <li>Click <strong>Clear data</strong>, then sign back in at <strong>office.com</strong> with your account.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="app-section">
+        <button class="app-toggle" onclick="toggleApp(this)">
+          <span class="at-icon">📌</span>
+          <div class="at-text">
+            <div class="at-name">Edge Browser — Extra Step for Work Account</div>
+            <div class="at-desc">Click to expand steps — if using Microsoft Edge on Windows</div>
+          </div>
+          <span class="at-caret">▼</span>
+        </button>
+        <div class="app-body">
+          <ol class="steps">
+            <li>In Edge, click your <strong>profile picture</strong> in the top-right of the browser window.</li>
+            <li>If your old @tucsonortho.com account is listed, click <strong>Sign out</strong> next to it.</li>
+            <li>Click <strong>Sign in</strong> and add your account.</li>
+            <li>Choose to sync your browser data with the new account if prompted.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HELP FOOTER ── -->
+  <div class="help-card">
+    <div class="hc-icon">🎧</div>
+    <div>
+      <h3>Need more help?</h3>
+      <p>If you're still having trouble after following the steps above, contact the IT Helpdesk.<br>
+      Have your <strong>email address</strong> and device type ready when you reach out.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2025 Tucson Orthopaedic Institute · Orthopedic Care Partners · Internal use only — migration support page
+</footer>
+
+<script>
+  function showDevice(id) {
+    // Hide all instruction panels
+    document.querySelectorAll('.instructions').forEach(el => el.classList.remove('visible'));
+    // Deactivate all buttons
+    document.querySelectorAll('.device-btn').forEach(el => el.classList.remove('active'));
+
+    // Show selected panel
+    const panel = document.getElementById('device-' + id);
+    if (panel) panel.classList.add('visible');
+
+    // Activate selected button
+    const btn = document.getElementById('btn-' + id);
+    if (btn) {
+      btn.classList.add('active');
+      // Smooth scroll to instructions
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+  }
+
+  function toggleApp(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+
+    // Close all siblings within the same panel
+    const panel = btn.closest('.panel');
+    panel.querySelectorAll('.app-toggle').forEach(b => b.classList.remove('open'));
+    panel.querySelectorAll('.app-body').forEach(b => b.classList.remove('open'));
+
+    // Toggle the clicked one
+    if (!isOpen) {
+      btn.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
